@@ -5,62 +5,21 @@
 ========================================================= */
 
 const threshold = 170;
-let triggered = false;
+let destroyed = false;
 
 /* =========================================================
-   DETECCION DEVTOOLS REAL
+   BLOQUEO PERMANENTE COPIAR / CLIC DERECHO
 ========================================================= */
 
-function detectDevtools(){
-
-  const widthDiff  = Math.abs(window.outerWidth - window.innerWidth);
-  const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-
-  if((widthDiff > threshold || heightDiff > threshold) && !triggered){
-    triggered = true;
-    activateProtection();
-  }
-}
-
-/* =========================================================
-   ACTIVAR PROTECCION TOTAL
-========================================================= */
-
-function activateProtection(){
-
-  console.clear();
-  console.warn("PROTECCION ACTIVADA");
-
-  /* romper APIs */
-  try {
-    Object.defineProperty(window, "fetch", { value: undefined });
-    Object.defineProperty(XMLHttpRequest.prototype, "open", { value: function(){} });
-  } catch(e){}
-
-  /* bloquear copiar */
-  lockInteractions();
-
-  /* borrar contenido */
-  destroyPage();
-}
-
-/* =========================================================
-   BLOQUEO INTERACCIONES
-========================================================= */
-
-function lockInteractions(){
+(function lockBasic(){
 
   const kill = e=>{
-    e.stopImmediatePropagation();
     e.preventDefault();
+    e.stopImmediatePropagation();
     return false;
   };
 
-  [
-    "copy","cut","paste",
-    "selectstart","dragstart",
-    "contextmenu"
-  ].forEach(evt=>{
+  ["copy","cut","paste","contextmenu","selectstart","dragstart"].forEach(evt=>{
     document.addEventListener(evt, kill, true);
     window.addEventListener(evt, kill, true);
   });
@@ -81,8 +40,40 @@ function lockInteractions(){
 
   if(document.body){
     document.body.style.userSelect = "none";
-    document.body.style.pointerEvents = "none";
   }
+
+})();
+
+/* =========================================================
+   DETECCION DEVTOOLS
+========================================================= */
+
+function isDevtoolsOpen(){
+
+  const widthDiff  = Math.abs(window.outerWidth - window.innerWidth);
+  const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
+
+  return (widthDiff > threshold || heightDiff > threshold);
+}
+
+/* =========================================================
+   ACTIVAR PROTECCION TOTAL
+========================================================= */
+
+function activateProtection(){
+
+  if(destroyed) return;
+  destroyed = true;
+
+  console.clear();
+  console.warn("PROTECCION ACTIVADA");
+
+  try {
+    Object.defineProperty(window, "fetch", { value: undefined });
+    Object.defineProperty(XMLHttpRequest.prototype, "open", { value: function(){} });
+  } catch(e){}
+
+  destroyPage();
 }
 
 /* =========================================================
@@ -97,14 +88,21 @@ function destroyPage(){
 
   setTimeout(()=>{
     location.replace("about:blank");
-  },100);
+  },80);
 }
 
 /* =========================================================
    DETECCION CONTINUA
 ========================================================= */
 
-setInterval(detectDevtools, 600);
+setInterval(()=>{
+
+  if(isDevtoolsOpen()){
+    activateProtection();
+  } else if(destroyed){
+    location.reload();
+  }
+
+}, 600);
 
 })();
-
