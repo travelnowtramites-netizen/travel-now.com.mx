@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Bloquear carpetas internas si existieran
+Disallow: /assets/private/
+Disallow: /cgi-bin/
+
+# Sitemap
+Sitemap: https://travel-now.com.mx/sitemap.xml

@@ -1,0 +1,337 @@
+/* =========================================================
+   1. VARIABLES BASE
+   ========================================================= */
+:root{
+  --bg:#01040800;
+  --surface:#b7bcc5;
+  --text:#020202;
+  --muted:#0c0c0c;
+  --brand:#2c09f3;
+  --brand2:#2008f5;
+  --radius:14px;
+  --container:1200px;
+}
+
+/* RESET */
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:system-ui,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+/* SOLO imágenes dentro de media */
+.media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+
+/* =========================================================
+   2. LAYOUT GLOBAL
+   ========================================================= */
+.container{
+  max-width:var(--container);
+  margin:auto;
+  padding:clamp(40px,6vw,80px) 24px;
+}
+
+/* GRID INTELIGENTE (auto responsive incluso con zoom) */
+.grid-2{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:clamp(30px,5vw,60px);
+  align-items:center;
+}
+
+.center{ text-align:center; }
+
+/* =========================================================
+   TIPOGRAFÍA FLUIDA
+   ========================================================= */
+h1{ font-size:clamp(1.8rem,3vw,2.8rem); }
+h2{ font-size:clamp(1.5rem,2.5vw,2.2rem); }
+p{  font-size:clamp(.95rem,1.2vw,1.05rem); }
+
+/* =========================================================
+   4. BOTONES
+   ========================================================= */
+.btn{
+  padding:12px 22px;
+  border-radius:999px;
+  font-weight:600;
+  display:inline-block;
+  transition:.25s;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  color:white;
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(79,124,255,.35);
+}
+
+.btn-outline{ border:1px solid #2a3347; }
+.btn-light{ background:#e9eefc; color:#1a2340; }
+
+/* =========================================================
+   5. SECCIONES MEDIA + TEXTO
+   ========================================================= */
+.media{
+  width:100%;
+  aspect-ratio:16 / 10;
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:#0f1624;
+  position:relative;
+}
+
+.content h1,
+.content h2{ margin-bottom:16px; }
+
+.content p{
+  color:var(--muted);
+  margin-bottom:22px;
+}
+
+.features li,
+.hours li,
+.benefits li{
+  margin-bottom:10px;
+  color:var(--muted);
+}
+
+/* =========================================================
+   WHATSAPP CTA
+   ========================================================= */
+.whatsapp-cta{
+  background:#dfe6ff;
+  color:#1a2340;
+}
+
+.whatsapp-cta h2{
+  font-size:clamp(1.6rem,2.5vw,2rem);
+  margin-bottom:10px;
+}
+
+.actions{
+  margin-top:25px;
+  display:flex;
+  gap:14px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* =========================================================
+   TESTIMONIAL
+   ========================================================= */
+.testimonial{
+  background:linear-gradient(160deg,#5c8dff,#7aa6ff);
+  padding:clamp(25px,4vw,40px);
+  border-radius:18px;
+  color:white;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+}
+
+.testimonial blockquote{
+  font-size:clamp(1rem,1.4vw,1.2rem);
+  margin-bottom:12px;
+}
+
+/* =========================================================
+   STATS
+   ========================================================= */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:20px;
+  margin-top:25px;
+}
+
+.stats div{
+  background:var(--surface);
+  padding:18px;
+  border-radius:12px;
+  text-align:center;
+}
+
+.stats strong{
+  display:block;
+  font-size:clamp(1.2rem,2vw,1.4rem);
+}
+
+.stats span{
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+/* =========================================================
+   HERO CONTACTO
+   ========================================================= */
+.contact-hero{ background:#eaf1f7; }
+
+.hero-box{ max-width:520px; }
+
+.lead{ color:#475569; margin:14px 0 20px; }
+
+.benefits li{
+  margin-bottom:12px;
+  padding-left:22px;
+  position:relative;
+}
+
+.benefits li::before{
+  content:"";
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#2563eb;
+  position:absolute;
+  left:0;
+  top:7px;
+}
+
+/* =========================================================
+   MISION
+   ========================================================= */
+.mission-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:clamp(40px,6vw,80px);
+  align-items:center;
+}
+
+.card{
+  width:100%;
+  aspect-ratio:4 / 5;
+  border-radius:20px;
+  background:linear-gradient(160deg,#8fb6d8,#5b88b3);
+  position:relative;
+  overflow:hidden;
+}
+
+.card-overlay{
+  position:absolute;
+  inset:0;
+  padding:30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  background:linear-gradient(to top,rgba(0,0,0,.4),transparent);
+  color:white;
+}
+
+.eyebrow{
+  color:#2563eb;
+  font-weight:600;
+  font-size:.8rem;
+}
+
+.mission p{ color:#475569; margin-bottom:14px; }
+
+.mail{
+  display:inline-block;
+  margin-top:18px;
+  color:#2563eb;
+  font-weight:600;
+}
+
+/* =========================================================
+   RESPONSIVE EXTRA
+   ========================================================= */
+@media(max-width:600px){
+  .actions{ flex-direction:column; align-items:center; }
+}
+/* =========================================================
+   LISTAS CON ICONOS (CONTACTO)
+   ========================================================= */
+
+.info-list,
+.hours{
+  margin-top:22px;
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+/* cada item */
+.info-list li,
+.hours li{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+
+/* caja del icono */
+.icon{
+  min-width:38px;
+  height:38px;
+  border-radius:10px;
+  background:#eef2ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.25s ease;
+}
+
+/* icono pequeño (horarios) */
+.icon.small{
+  min-width:32px;
+  height:32px;
+}
+
+/* svg */
+.icon svg{
+  width:18px;
+  height:18px;
+  fill:var(--brand);
+  transition:.25s ease;
+}
+
+/* textos */
+.info-list strong,
+.hours strong{
+  display:block;
+  font-weight:600;
+  margin-bottom:2px;
+  color:#0f172a;
+}
+
+.info-list p{
+  margin:0;
+  color:#64748b;
+  font-size:.95rem;
+}
+
+.hours span{
+  color:#64748b;
+  font-size:.9rem;
+}
+
+/* efecto premium hover */
+.info-list li:hover .icon,
+.hours li:hover .icon{
+  background:var(--brand);
+}
+
+.info-list li:hover .icon svg,
+.hours li:hover .icon svg{
+  fill:#fff;
+  transform:scale(1.1);
+}
