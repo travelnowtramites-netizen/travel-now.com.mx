@@ -1,10 +1,6 @@
 (function(){
 
-/* =========================================================
-   CONFIG
-========================================================= */
-
-const threshold = 170;
+const threshold = 160;
 let destroyed = false;
 
 /* =========================================================
@@ -45,7 +41,7 @@ let destroyed = false;
 })();
 
 /* =========================================================
-   DETECCION DEVTOOLS
+   DETECCION DEVTOOLS MEJORADA
 ========================================================= */
 
 function isDevtoolsOpen(){
@@ -53,7 +49,17 @@ function isDevtoolsOpen(){
   const widthDiff  = Math.abs(window.outerWidth - window.innerWidth);
   const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
 
-  return (widthDiff > threshold || heightDiff > threshold);
+  // señal 1: diferencia grande
+  const sizeCheck = (widthDiff > threshold || heightDiff > threshold);
+
+  // señal 2: debugger timing
+  const t0 = performance.now();
+  debugger;
+  const t1 = performance.now();
+  const debugCheck = (t1 - t0 > 100);
+
+  // activar solo si ambas señales coinciden
+  return sizeCheck && debugCheck;
 }
 
 /* =========================================================
@@ -103,6 +109,6 @@ setInterval(()=>{
     location.reload();
   }
 
-}, 600);
+}, 800);
 
 })();
