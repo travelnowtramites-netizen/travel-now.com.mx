@@ -1,102 +1,55 @@
+
 (function(){
 
 /* =========================================================
-   DETECCION DEVTOOLS
+   CONFIG
 ========================================================= */
 
-let blocked = false;
-const threshold = 160;
+const threshold = 170;
+let triggered = false;
+
+/* =========================================================
+   DETECCION DEVTOOLS REAL
+========================================================= */
 
 function detectDevtools(){
-  const w = window.outerWidth - window.innerWidth;
-  const h = window.outerHeight - window.innerHeight;
 
-  if((w > threshold || h > threshold) && !blocked){
-    blocked = true;
+  const widthDiff  = Math.abs(window.outerWidth - window.innerWidth);
+  const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
+
+  if((widthDiff > threshold || heightDiff > threshold) && !triggered){
+    triggered = true;
     activateProtection();
   }
 }
 
 /* =========================================================
-   ACTIVAR PROTECCION
+   ACTIVAR PROTECCION TOTAL
 ========================================================= */
 
 function activateProtection(){
 
   console.clear();
-  console.warn("Modo protegido activado");
+  console.warn("PROTECCION ACTIVADA");
 
-  document.documentElement.classList.add("devtools-lock");
+  /* romper APIs */
+  try {
+    Object.defineProperty(window, "fetch", { value: undefined });
+    Object.defineProperty(XMLHttpRequest.prototype, "open", { value: function(){} });
+  } catch(e){}
 
-  /* ---- detener chatbot ---- */
-  window.__IDAPPSH_CHATBOT_INIT__ = true;
+  /* bloquear copiar */
+  lockInteractions();
 
-  const chat = document.getElementById("idappsh-chat-launcher");
-  const panel = document.getElementById("idappsh-chat-panel");
-  if(chat) chat.remove();
-  if(panel) panel.remove();
-
-  /* ---- cerrar modales ---- */
-  document.querySelectorAll(".modal, .is-open, .open").forEach(el=>{
-    el.classList.remove("is-open","open");
-    el.style.display="none";
-  });
-
-  /* ---- bloquear API ---- */
-  window.fetch = () => Promise.reject("blocked");
-  XMLHttpRequest.prototype.open = function(){};
-
-  /* ---- bloquear formularios ---- */
-  document.querySelectorAll("input,textarea,select").forEach(el=>{
-    el.disabled = true;
-    el.placeholder = "Contenido protegido";
-  });
-
-  /* ---- borrar info privada ---- */
-  document.querySelectorAll("[data-private]").forEach(el=>{
-    el.textContent = "•••";
-  });
-
-  /* ---- bloquear selección ---- */
-  disableCopyPaste();
-
-  /* ---- cerrar pagina ---- */
-  tryClosePage();
+  /* borrar contenido */
+  destroyPage();
 }
 
 /* =========================================================
-   BLOQUEO COPIAR / PEGAR / SELECCION
+   BLOQUEO INTERACCIONES
 ========================================================= */
 
-function disableCopyPaste(){
-
-  const prevent = e => e.preventDefault();
-
-  document.addEventListener("copy", prevent, true);
-  document.addEventListener("cut", prevent, true);
-  document.addEventListener("paste", prevent, true);
-  document.addEventListener("selectstart", prevent, true);
-  document.addEventListener("dragstart", prevent, true);
-
-  document.body.style.userSelect = "none";
-  document.body.style.webkitUserSelect = "none";
-
-  /* bloquear atajos teclado */
-  document.addEventListener("keydown", function(e){
-
-    if(
-      (e.ctrlKey && ["c","x","v","a","s","u"].includes(e.key.toLowerCase())) ||
-      (e.ctrlKey && e.shiftKey && ["i","j","c"].includes(e.key.toLowerCase())) ||
-      e.key === "F12"
-    ){
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-
-  }, true);
-}
-function disableCopyPaste(){
+function lockInteractions(){
 
   const kill = e=>{
     e.stopImmediatePropagation();
@@ -104,16 +57,18 @@ function disableCopyPaste(){
     return false;
   };
 
-  /* eventos reales */
-  ["copy","cut","paste","selectstart","dragstart","contextmenu"].forEach(evt=>{
+  [
+    "copy","cut","paste",
+    "selectstart","dragstart",
+    "contextmenu"
+  ].forEach(evt=>{
     document.addEventListener(evt, kill, true);
     window.addEventListener(evt, kill, true);
   });
 
-  /* bloquear teclado */
   document.addEventListener("keydown", function(e){
 
-    const k = e.key.toLowerCase();
+    const k = (e.key || "").toLowerCase();
 
     if(
       (e.ctrlKey && ["c","x","v","a","u","s","p"].includes(k)) ||
@@ -125,45 +80,32 @@ function disableCopyPaste(){
 
   }, true);
 
-  /* limpiar selección continuamente */
-  setInterval(()=>{
-    const sel = window.getSelection();
-    if(sel && sel.rangeCount) sel.removeAllRanges();
-  },50);
-
-  /* bloquear clipboard API moderna */
-  if(navigator.clipboard){
-    navigator.clipboard.writeText = async ()=>{};
-    navigator.clipboard.readText = async ()=>"";
+  if(document.body){
+    document.body.style.userSelect = "none";
+    document.body.style.pointerEvents = "none";
   }
-
 }
+
 /* =========================================================
-   INTENTO CERRAR PAGINA
+   DESTRUIR PAGINA
 ========================================================= */
 
-function tryClosePage(){
+function destroyPage(){
 
-  // intento cierre real
-  window.open('', '_self');
-  window.close();
+  try{
+    document.documentElement.innerHTML = "";
+  }catch(e){}
 
-  // destruir contenido si no permite cerrar
   setTimeout(()=>{
-    document.body.innerHTML = "";
-    document.head.innerHTML = "";
     location.replace("about:blank");
-  },120);
+  },100);
 }
 
 /* =========================================================
-   BLOQUEOS EXTRA
+   DETECCION CONTINUA
 ========================================================= */
 
-/* clic derecho */
-document.addEventListener("contextmenu", e=> e.preventDefault());
-
-/* deteccion continua */
-setInterval(detectDevtools, 700);
+setInterval(detectDevtools, 600);
 
 })();
+
