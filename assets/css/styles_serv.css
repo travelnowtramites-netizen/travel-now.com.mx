@@ -1,0 +1,192 @@
+
+/* =========================================================
+   HERO SUPERIOR
+   ========================================================= */
+.hero-split{
+  display:grid;
+  grid-template-columns:60% 40%;
+  min-height:520px;
+}
+
+.hero-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.hero-text{
+  background:#f4f6fb;
+  padding:70px 60px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.hero-text h1{
+  font-size:2rem;
+  margin-bottom:18px;
+}
+
+.hero-text p{
+  color:#555;
+  margin-bottom:20px;
+}
+
+
+/* =========================================================
+   BLOQUES GENERALES (split)
+   ========================================================= */
+.split{
+  display:grid;
+  grid-template-columns:50% 50%;
+  align-items:center;
+  min-height:460px;
+}
+
+.split.reverse{
+  direction:rtl;
+}
+.split.reverse .split-text{
+  direction:ltr;
+}
+
+.split-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.split-text{
+  padding:70px;
+}
+
+.split-text h2{
+  margin-bottom:15px;
+  font-size:1.5rem;
+}
+
+.split-text p{
+  color:#555;
+  margin-bottom:15px;
+}
+
+.split-text li{
+  margin-bottom:8px;
+  color:#555;
+}
+
+
+/* =========================================================
+   SECCIÓN FONDO AZUL (como captura)
+   ========================================================= */
+.process{
+  background:#dfe7f1;
+}
+
+.process .split-text{
+  padding:80px;
+}
+
+
+/* =========================================================
+   TARJETAS PASAPORTE (iconos centrados)
+   ========================================================= */
+.passport-steps{
+  background:#dfe7f1;
+  text-align:center;
+  padding:70px 20px;
+}
+
+.passport-steps .grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  max-width:900px;
+  margin:30px auto 0;
+}
+
+.passport-steps .card{
+  background:white;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 6px 16px rgba(0,0,0,.08);
+  font-size:.9rem;
+}
+
+
+/* =========================================================
+   FAQ LATERAL
+   ========================================================= */
+.faq{
+  display:grid;
+  grid-template-columns:45% 55%;
+  gap:40px;
+  align-items:center;
+  padding:80px;
+}
+
+.faq img{
+  width:100%;
+  border-radius:12px;
+}
+
+.faq h2{
+  margin-bottom:20px;
+}
+
+details{
+  border-bottom:1px solid #ddd;
+  padding:14px 0;
+}
+
+summary{
+  cursor:pointer;
+  font-weight:600;
+}
+
+details p{
+  color:#555;
+  margin-top:8px;
+}
+
+
+/* =========================================================
+   CTA FINAL
+   ========================================================= */
+.cta{
+  text-align:center;
+  padding:80px 20px;
+}
+
+.cta h2{
+  margin-bottom:10px;
+}
+
+.cta p{
+  color:#666;
+  margin-bottom:20px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media(max-width:900px){
+
+.hero-split,
+.split,
+.faq{
+  grid-template-columns:1fr;
+}
+
+.hero-text,
+.split-text{
+  padding:40px 25px;
+}
+
+.passport-steps .grid{
+  grid-template-columns:1fr 1fr;
+}
+
+}
+
