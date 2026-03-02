@@ -1,0 +1,142 @@
+/* =========================================================
+   VARIABLES
+========================================================= */
+:root {
+  --bg: #0b1220;
+  --surface: #111827;
+  --card: #1f2937;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --brand: #3b82f6;
+  --border: rgba(255,255,255,0.08);
+  --radius: 14px;
+  --container: 1100px;
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.container {
+  max-width: var(--container);
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* HERO */
+.legal-hero {
+  padding: 90px 0 70px;
+  text-align: center;
+  background: linear-gradient(135deg, #0b1220, #111827);
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 12px;
+}
+
+.company {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.update {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* MAIN */
+.legal-main {
+  padding: 60px 0;
+}
+
+.card {
+  background: var(--card);
+  padding: 30px;
+  border-radius: var(--radius);
+  margin-bottom: 30px;
+  border: 1px solid var(--border);
+  transition: 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--brand);
+}
+
+.card h2 {
+  color: var(--brand);
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+
+.card p {
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+.card ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.card li {
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+/* FOOTER */
+.legal-footer {
+  background: #0f172a;
+  border-top: 1px solid var(--border);
+  padding: 50px 0;
+  font-size: 0.9rem;
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.footer-grid h4 {
+  margin-bottom: 8px;
+  color: var(--brand);
+}
+
+.copy {
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .legal-hero h1 {
+    font-size: 2rem;
+  }
+
+  .footer-grid {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .card {
+    padding: 22px;
+  }
+}
